@@ -17,7 +17,7 @@ ParamType parseParamType(String str) {
   }
   str = str.toLowerCase();
   return ParamType.values.firstWhere((t) => t.toString().toLowerCase() == str,
-      orElse: () => ParamType.other);
+                                         orElse: () => ParamType.other);
 }
 
 abstract class _JsonWritable {
@@ -39,7 +39,7 @@ abstract class SpecNode implements _JsonWritable {
   String label;
   List<String> tags;
 
-  SpecNode(this.key, {this.label, this.tags});
+  SpecNode(this.key);
 
   @override
   Map<String, Object> get jsonDict =>
@@ -57,8 +57,6 @@ abstract class ParamSpec extends SpecNode {
 
   ParamType get type;
 
-  ParamSpec(String key) : super(key);
-
   @override
   Map<String, Object> get jsonDict =>
       _merge(super.jsonDict, second: {
@@ -67,40 +65,96 @@ abstract class ParamSpec extends SpecNode {
         'group': this.group,
         'type': this.type.toString(),
       });
+
+  ParamSpec(String key) : super(key);
 }
 
-class _RangedParamSpec<T> extends ParamSpec {
+class TriggerParamSpec extends ParamSpec {
+
+  TriggerParamSpec(String key)
+      : super(key);
+
+  @override
+  ParamType get type => ParamType.trigger;
+}
+
+class StringParamSpec extends ParamSpec {
+  String defaultValue;
+  List<ParamOption> options;
+
+  StringParamSpec(String key)
+      :super(key);
+
+  @override
+  ParamType get type => ParamType.string;
+
+  @override
+  Map<String, Object> get jsonDict =>
+      _merge(super.jsonDict, second: {
+        'default': this.defaultValue,
+        'options': this.options?.map((o) => o.jsonDict),
+      });
+}
+
+class BoolParamSpec extends ParamSpec {
+  bool defaultValue;
+
+  BoolParamSpec(String key)
+  : super(key);
+
+  @override
+  ParamType get type => ParamType.bool;
+
+  @override
+  Map<String, Object> get jsonDict =>
+      _merge(super.jsonDict, second: {
+        'default': this.defaultValue,
+      });
+}
+
+abstract class NumberParamSpec<T> extends ParamSpec {
   List<T> minLimit;
   List<T> maxLimit;
   List<T> minNorm;
   List<T> maxNorm;
   List<T> defaultValue;
 
-  @override
-  final ParamType type;
-
-  _RangedParamSpec(String key, this.type)
+  NumberParamSpec._(String key)
       : super(key);
 
   @override
   Map<String, Object> get jsonDict =>
       _merge(super.jsonDict, second: {
-        'minLimit':this.minLimit,
-        'maxLimit':this.maxLimit,
+        'minLimit': this.minLimit,
+        'maxLimit': this.maxLimit,
         'minNorm': this.minNorm,
         'maxNorm': this.maxNorm,
         'default': this.defaultValue,
       });
 }
 
-class _MenuParamSpec extends ParamSpec {
+class FloatParamSpec extends NumberParamSpec<double> {
+  FloatParamSpec(String key) : super._(key);
+
+  @override
+  ParamType get type => ParamType.float;
+}
+
+class IntParamSpec extends NumberParamSpec<int> {
+  IntParamSpec(String key) : super._(key);
+
+  @override
+  ParamType get type => ParamType.int;
+}
+
+class MenuParamSpec extends ParamSpec {
   String defaultValue;
   List<ParamOption> options;
 
   @override
   ParamType get type => ParamType.menu;
 
-  _MenuParamSpec(String key) : super(key);
+  MenuParamSpec(String key) : super(key);
 
   @override
   Map<String, Object> get jsonDict =>
@@ -124,7 +178,7 @@ class ModuleSpec extends SpecNode {
         'moduleType': this.moduleType,
         'group': this.group,
         'params': this.params?.map((p) => p.jsonDict),
-        'children':this.children?.map((p) => p.jsonDict),
+        'children': this.children?.map((p) => p.jsonDict),
       });
 }
 

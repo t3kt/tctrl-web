@@ -6,6 +6,8 @@ enum ParamType {
   string,
   int,
   float,
+  ivec,
+  fvec,
   menu,
   trigger,
 }
@@ -125,16 +127,26 @@ abstract class ParamSpec extends SpecNode {
     this.group = obj['group'];
   }
 
-  factory ParamSpec.withType(String key, ParamType type) {
+  factory ParamSpec.withType(String key, ParamType type, {int length: None}) {
     switch (type) {
       case ParamType.bool:
         return new BoolParamSpec(key);
       case ParamType.string:
         return new StringParamSpec(key);
       case ParamType.int:
-        return new IntParamSpec(key);
+        if (length == 1) {
+          return new IntParamSpec(key);
+        }
+        return new IntVectorParamSpec(key);
       case ParamType.float:
-        return new FloatParamSpec(key);
+        if (length == 1) {
+          return new FloatParamSpec(key);
+        }
+        return new FloatVectorParamSpec(key);
+      case ParamType.ivec:
+        return new IntVectorParamSpec(key);
+      case ParamType.fvec:
+        return new FloatVectorParamSpec(key);
       case ParamType.menu:
         return new MenuParamSpec(key);
       case ParamType.trigger:
@@ -154,7 +166,7 @@ abstract class ParamSpec extends SpecNode {
     if (type == null) {
       param = new OtherParamSpec(key, otherType: typeStr);
     } else {
-      param = new ParamSpec.withType(key, type);
+      param = new ParamSpec.withType(key, type, _asInt(obj['length']));
     }
     param.readProperties(obj);
     return param;
@@ -244,6 +256,55 @@ class BoolParamSpec extends ParamSpec {
 }
 
 abstract class NumberParamSpec<T> extends ParamSpec {
+  T defaultValue;
+  T minLimit;
+  T maxLimit;
+  T minNorm;
+  T maxNorm;
+
+  NumberParamSpec._(String key)
+      : super(key);
+
+  @override
+  Map<String, Object> get jsonDict =>
+      _merge(super.jsonDict, second: {
+        'default': this.defaultValue,
+        'minLimit': this.minLimit,
+        'maxLimit': this.maxLimit,
+        'minNorm': this.minNorm,
+        'maxNorm': this.maxNorm,
+      });
+
+  T _parseVal(Object obj);
+
+  @override
+  void readProperties(Map<String, Object> obj) {
+    super.readProperties(obj);
+    this.defaultValue = _parseVal(obj['default']);
+    this.minLimit = _parseVal(obj['minLimit']);
+    this.maxLimit = _parseVal(obj['maxLimit']);
+    this.minNorm = _parseVal(obj['minNorm']);
+    this.maxNorm = _parseVal(obj['maxNorm']);
+  }
+}
+
+class IntParamSpec extends NumberParamSpec<int> {
+  IntParamSpec(String key)
+      : super(key);
+
+  @override
+  int _parseVal(Object obj) => _asInt(obj);
+}
+
+class FloatParamSpec extends NumberParamSpec<double> {
+  FloatParamSpec(String key)
+      : super(key);
+
+  @override
+  int _parseVal(Object obj) => _asDouble(obj);
+}
+
+abstract class VectorParamSpec<T> extends ParamSpec {
   int length = 1;
   List<T> defaultValue;
   List<T> minLimit;
@@ -251,7 +312,7 @@ abstract class NumberParamSpec<T> extends ParamSpec {
   List<T> minNorm;
   List<T> maxNorm;
 
-  NumberParamSpec._(String key)
+  VectorParamSpec._(String key)
       : super(key);
 
   @override
@@ -294,11 +355,11 @@ List _fillToLength(List vals, int length) {
   return results.toList(growable: false);
 }
 
-class FloatParamSpec extends NumberParamSpec<double> {
-  FloatParamSpec(String key) : super._(key);
+class FloatVectorParamSpec extends VectorParamSpec<double> {
+  FloatVectorParamSpec(String key) : super._(key);
 
   @override
-  ParamType get type => ParamType.float;
+  ParamType get type => this.length == 1 ? ParamType.float : ParamType.fvec;
 
   @override
   List<double> _parseList(Object obj) {
@@ -312,11 +373,11 @@ class FloatParamSpec extends NumberParamSpec<double> {
   }
 }
 
-class IntParamSpec extends NumberParamSpec<int> {
-  IntParamSpec(String key) : super._(key);
+class IntVectorParamSpec extends VectorParamSpec<int> {
+  IntVectorParamSpec(String key) : super._(key);
 
   @override
-  ParamType get type => ParamType.int;
+  ParamType get type => this.length == 1 ? ParamType.int : ParamType.ivec;
 
   @override
   List<int> _parseList(Object obj) {

@@ -7,9 +7,6 @@ enum ParamType {
   string,
   int,
   float,
-  ivec,
-  fvec,
-  bvec,
   menu,
   trigger,
 }

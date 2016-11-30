@@ -3,7 +3,7 @@
 
 import 'package:angular2/platform/browser.dart';
 
-import 'package:tctrl_web/app_component.dart';
+import 'package:tctrl/app_component.dart';
 
 main() {
   bootstrap(AppComponent);

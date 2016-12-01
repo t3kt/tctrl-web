@@ -1,0 +1,15 @@
+<span class="label">{{label}}</span>
+<span
+    class="field"
+    [ngSwitch]="type">
+
+  <single-number-field
+      *ngSwitchWhen="PTypes.int"
+      [param]="param">
+  </single-number-field>
+
+  <single-number-field
+      *ngSwitchWhen="PTypes.float"
+      [param]="param">
+  </single-number-field>
+</span>

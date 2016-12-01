@@ -127,7 +127,7 @@ abstract class ParamSpec extends SpecNode {
     this.group = obj['group'];
   }
 
-  factory ParamSpec.withType(String key, ParamType type, {int length: None}) {
+  factory ParamSpec.withType(String key, ParamType type, {int length}) {
     switch (type) {
       case ParamType.bool:
         return new BoolParamSpec(key);
@@ -166,7 +166,7 @@ abstract class ParamSpec extends SpecNode {
     if (type == null) {
       param = new OtherParamSpec(key, otherType: typeStr);
     } else {
-      param = new ParamSpec.withType(key, type, _asInt(obj['length']));
+      param = new ParamSpec.withType(key, type, length: _asInt(obj['length']));
     }
     param.readProperties(obj);
     return param;
@@ -262,8 +262,11 @@ abstract class NumberParamSpec<T> extends ParamSpec {
   T minNorm;
   T maxNorm;
 
-  NumberParamSpec._(String key)
+  NumberParamSpec._(String key, this.type)
       : super(key);
+
+  @override
+  final ParamType type;
 
   @override
   Map<String, Object> get jsonDict =>
@@ -290,7 +293,7 @@ abstract class NumberParamSpec<T> extends ParamSpec {
 
 class IntParamSpec extends NumberParamSpec<int> {
   IntParamSpec(String key)
-      : super(key);
+      : super._(key, ParamType.int);
 
   @override
   int _parseVal(Object obj) => _asInt(obj);
@@ -298,10 +301,10 @@ class IntParamSpec extends NumberParamSpec<int> {
 
 class FloatParamSpec extends NumberParamSpec<double> {
   FloatParamSpec(String key)
-      : super(key);
+      : super._(key, ParamType.float);
 
   @override
-  int _parseVal(Object obj) => _asDouble(obj);
+  double _parseVal(Object obj) => _asDouble(obj);
 }
 
 abstract class VectorParamSpec<T> extends ParamSpec {

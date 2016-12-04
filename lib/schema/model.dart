@@ -30,9 +30,7 @@ class ParamModel extends ModelNode {
   dynamic value;
 
   @override
-  String toString() {
-    return 'Param{$label ($key): $value}';
-  }
+  String toString() => 'Param{$label ($key): $value}';
 }
 
 class ModuleModel extends ModelNode {
@@ -59,9 +57,7 @@ class ModuleModel extends ModelNode {
   String get label => spec.label;
 
   @override
-  String toString() {
-    return 'Module{$label ($key)}';
-  }
+  String toString() => 'Module{$label ($key)}';
 }
 
 class AppModel extends ModelNode {
@@ -81,9 +77,7 @@ class AppModel extends ModelNode {
   String get label => schema.label;
 
   @override
-  String toString() {
-    return 'App{$label ($key)}';
-  }
+  String toString() => 'App{$label ($key)}';
 }
 
 

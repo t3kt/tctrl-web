@@ -426,6 +426,21 @@ class ModuleSpec extends SpecNode {
 
   ModuleSpec(String key) : super(key);
 
+  factory ModuleSpec.fromObj(Map<String, Object> obj) {
+    var key = obj['key'];
+    var module = new ModuleSpec(key);
+    module.readProperties(obj);
+    var paramObjs = obj['params'];
+    if (paramObjs != null && paramObjs is List<Map<String, Object>>) {
+      module.params = paramObjs.map((p) => new ParamSpec.fromObj(p)).toList(growable: false);
+    }
+    var childrenObjs = obj['children'];
+    if (childrenObjs != null && childrenObjs is List<Map<String, Object>>) {
+      module.children = childrenObjs.map((m) => new ModuleSpec.fromObj(m)).toList(growable: false);
+    }
+    return module;
+  }
+
   @override
   Map<String, Object> get jsonDict =>
       _merge(super.jsonDict, second: {
@@ -449,6 +464,16 @@ class AppSchema extends SpecNode {
   List<ModuleSpec> children;
 
   AppSchema(String key) : super(key);
+
+  factory AppSchema.fromObj(Map<String, Object> obj) {
+    AppSchema app = new AppSchema(obj['key']);
+    app.readProperties(obj);
+    var childrenObjs = obj['children'];
+    if (childrenObjs != null && childrenObjs is List<Map<String, Object>>) {
+      app.children = childrenObjs.map((m) => new ModuleSpec.fromObj(m)).toList(growable: false);
+    }
+    return app;
+  }
 
   @override
   Map<String, Object> get jsonDict =>

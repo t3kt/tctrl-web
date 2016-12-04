@@ -12,7 +12,8 @@ window.nxshim = (function() {
     this.mgr.sendsTo(callback);
   };
   ManagerWrapper.prototype.addWidget = function(typename, options) {
-    return this.mgr.add(typename, options);
+    var wgt = this.mgr.add(typename, options);
+    return wgt ? new WidgetWrapper(wgt) : null;
   };
   ManagerWrapper.prototype.transmit = function(dataobj) {
     this.mgr.transmit(dataobj);
@@ -33,12 +34,29 @@ window.nxshim = (function() {
     this.mgr.globalWidgets = enable;
   };
   ManagerWrapper.prototype.getWidget = function(widgetId) {
-    return this.mgr.widgets[widgetId];
+    var wgt = this.mgr.widgets[widgetId];
+    return wgt ? new WidgetWrapper(wgt) : null;
   };
-  ManagerWrapper.prototype.transformCanvas = function(canvasElem, typename) {
-    return this.mgr.transform(canvasElem, typename);
+  ManagerWrapper.prototype.transformCanvas = function(canvasElem, typename, options) {
+    var wgt = this.mgr.transform(canvasElem, typename, options);
+    return wgt ? new WidgetWrapper(wgt) : null;
+  };
+  ManagerWrapper.prototype.transformCanvasById = function(canvasId, typename, options) {
+    var wgt = this.mgr.transform(canvasId, typename, options);
+    return wgt ? new WidgetWrapper(wgt) : null;
   };
   nxshim.ManagerWrapper = ManagerWrapper;
+
+  function WidgetWrapper(widget) {
+    this.wgt = widget;
+  }
+  WidgetWrapper.prototype.getCanvas = function() {
+    return this.wgt.canvas;
+  };
+  WidgetWrapper.prototype.setOscPath = function(oscPath) {
+    this.wgt.oscPath = oscPath;
+  };
+  nxshim.WidgetWrapper = WidgetWrapper;
 
   nxshim.globalInstance = new ManagerWrapper(nx);
   return nxshim;

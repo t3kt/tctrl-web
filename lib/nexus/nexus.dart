@@ -1,6 +1,7 @@
 @JS('nxshim')
 library nexus;
 
+import 'dart:html';
 import 'package:js/js.dart';
 
 external ManagerWrapper get globalInstance;
@@ -23,9 +24,13 @@ class ManagerWrapper {
 
   external void setGlobalWidgets(bool enable);
 
-//  external dynamic getWidget(String widgetId);
-//  external dynamic transformCanvas(dynamic canvasElem, String typename);
-  external dynamic addWidget(String typename, [WidgetOptions options]);
+  external WidgetWrapper getWidget(String widgetId);
+
+  external WidgetWrapper transformCanvas(CanvasElement canvasElem, [String typename, WidgetOptions options]);
+
+  external WidgetWrapper transformCanvasById(String canvasId, [String typename, WidgetOptions options]);
+
+  external WidgetWrapper addWidget(String typename, [WidgetOptions options]);
 }
 
 @JS()
@@ -49,4 +54,13 @@ class WidgetOptions {
 
   external String get name;
   external void set name(String v);
+
+  external String get label;
+  external void set label(String v);
+}
+
+@JS()
+class WidgetWrapper {
+  external CanvasElement getCanvas();
+  external void setOscPath(String v);
 }

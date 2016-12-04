@@ -11,6 +11,9 @@ window.nxshim = (function() {
   ManagerWrapper.prototype.setSendCallback = function(callback) {
     this.mgr.sendsTo(callback);
   };
+  ManagerWrapper.prototype.addWidget = function(typename, options) {
+    return this.mgr.add(typename, options);
+  };
   ManagerWrapper.prototype.transmit = function(dataobj) {
     this.mgr.transmit(dataobj);
   };

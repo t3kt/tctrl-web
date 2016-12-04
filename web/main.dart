@@ -5,6 +5,13 @@ import 'package:angular2/platform/browser.dart';
 
 import 'package:tctrl/app_component.dart';
 
+import 'package:tctrl/nexus/nexus.dart';
+
 main() {
   bootstrap(AppComponent);
+
+  var nx = globalInstance;
+  print('OMG NX! $nx');
+  nx.addWidget('dial');
+  nx.addWidget('colors');
 }

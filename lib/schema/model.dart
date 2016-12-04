@@ -1,6 +1,5 @@
 library tctrl.model;
 
-import 'package:property_grid/property_grid.dart';
 import 'package:tctrl/schema/schema.dart';
 
 abstract class ModelNode {
@@ -25,40 +24,6 @@ class ParamModel extends ModelNode {
 
   dynamic value;
 
-  void registerInGridModel(PropertyGridModel gridModel) {
-    gridModel.register(
-        this.label,
-        () => this.value,
-        (val) => this.value = val,
-        this._viewType,
-        this._editorType,
-        editorConfig: this._editorConfig,
-        category: this.spec.group);
-  }
-
-  String get _viewType {
-    return 'label';
-  }
-
-  String get _editorType {
-    switch (this.type) {
-      case ParamType.string:
-        return 'textbox';
-      case ParamType.int:
-        return 'slider';
-      default:
-        throw new Exception('NOT IMPLEMENTED NOT IMPLEMENTED NOT IMPLEMENTED NOT IMPLEMENTED NOT IMPLEMENTED');
-    }
-  }
-
-  dynamic get _editorConfig {
-    switch (this.type) {
-//      case ParamType.int:
-      default:
-        return null;
-    }
-  }
-
   @override
   String toString() {
     return 'Param{$label ($key): $value}';
@@ -78,15 +43,6 @@ class ModuleModel extends ModelNode {
 
   @override
   String get label => spec.label;
-
-  PropertyGridModel buildGridModel() {
-    var gridModel = new PropertyGridModel();
-    // TODO: support sub modules
-    for (var param in this.params) {
-      param.registerInGridModel(gridModel);
-    }
-    return gridModel;
-  }
 
   @override
   String toString() {

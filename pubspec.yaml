@@ -5,7 +5,6 @@ environment:
   sdk: '>=1.19.0 <2.0.0'
 dependencies:
   angular2: ^2.0.0
-  property_grid:
   js: ^0.6.0
 dev_dependencies:
   browser: ^0.10.0

@@ -1,79 +1,10 @@
-import 'dart:html';
 import 'package:angular2/core.dart';
-import 'package:property_grid/property_grid.dart';
-import 'package:tctrl/schema/schema.dart';
-import 'package:tctrl/ui/property_grid_host.dart';
-
-ParamType _whatever;
 
 @Component(
     selector: 'my-app',
-    directives: const [PropertyGridHost],
+    directives: const [],
     styleUrls: const ['app_component.css'],
     templateUrl: 'app_component.html')
 class AppComponent {
-  PropertyGridModel model;
-
-
-  String _fullName = "Ali Akbar";
-  int _age = 30;
-  String _location = "Mars";
-  String _language = "Dart";
-  Color _color = new Color(200, 125, 220);
-  String _filename = "test.png";
-
-  AppComponent() {
-    model = new PropertyGridModel();
-    model.register("Full Name", () => _fullName, (String value) => _fullName = value,
-                       "label", "textbox", category: "Info", description: "Name of the person");
-
-    model.register("Age", () => _age.toString(), (String value) => _age = double.parse(value).toInt(),
-                       "label", "slider", category: "Info", description: "Age of the person", editorConfig: [12, 120]);
-
-    model.register("Location", () => _location, (String value) => _location = value,
-                       "label", "textbox", category: "Info", description: "Current Location");
-
-    model.register("Language", () => _language, (String value) => _language = value,
-                       "label", "spinner", category: "Preference",
-                       description: "The user's prefered language",
-                       editorConfig: _getLanguageList);
-
-    model.register("Color", () => _color.toString(), (String value) => _color = new Color.parse(value),
-                       "color", "color", category: "Preference",
-                       description: "The user's prefered color",
-                       editorConfig: 128 /* size of color picker */);
-
-    model.register("Filename", () => _filename, (File value) => _filename = value.name,
-                       "label", "browse", category: "Info", description: "test Filename");
-  }
-
 }
-
-_getLanguageList() {
-  return ["C#", "C++", "Dart", "Java", "JavaScript", "Ruby", "Python"];
-}
-
-class Color {
-  int r;
-  int g;
-  int b;
-
-  Color(this.r, this.g, this.b);
-
-  Color.parse(String data) {
-    var tokens = data.split(",");
-    r = int.parse(tokens[0]);
-    g = int.parse(tokens[1]);
-    b = int.parse(tokens[2]);
-  }
-
-  String toString() => "$r, $g, $b";
-
-  void set(int r, int g, int b) {
-    this.r = r;
-    this.g = g;
-    this.b = b;
-  }
-}
-
 

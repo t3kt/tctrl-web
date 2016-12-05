@@ -134,15 +134,15 @@ abstract class ParamSpec extends SpecNode {
       case ParamType.string:
         return new StringParamSpec(key);
       case ParamType.int:
-        if (length == 1) {
+        if (length == null || length == 1) {
           return new IntParamSpec(key);
         }
-        return new IntVectorParamSpec(key);
+        return new IntVectorParamSpec(key, length: length);
       case ParamType.float:
-        if (length == 1) {
+        if (length == null || length == 1) {
           return new FloatParamSpec(key);
         }
-        return new FloatVectorParamSpec(key);
+        return new FloatVectorParamSpec(key, length: length);
       case ParamType.ivec:
         return new IntVectorParamSpec(key);
       case ParamType.fvec:
@@ -308,20 +308,20 @@ class FloatParamSpec extends NumberParamSpec<double> {
 }
 
 abstract class VectorParamSpec<T> extends ParamSpec {
-  int length = 1;
+  int length;
   List<T> defaultValue;
   List<T> minLimit;
   List<T> maxLimit;
   List<T> minNorm;
   List<T> maxNorm;
 
-  VectorParamSpec._(String key)
+  VectorParamSpec._(String key, {this.length: 1})
       : super(key);
 
   @override
   Map<String, Object> get jsonDict =>
       _merge(super.jsonDict, second: {
-        'length': this.length == 1 ? null : this.length,
+        'length': this.length,
         'default': this.defaultValue,
         'minLimit': this.minLimit,
         'maxLimit': this.maxLimit,
@@ -359,10 +359,10 @@ List _fillToLength(List vals, int length) {
 }
 
 class FloatVectorParamSpec extends VectorParamSpec<double> {
-  FloatVectorParamSpec(String key) : super._(key);
+  FloatVectorParamSpec(String key, {int length: 1}) : super._(key, length: length);
 
   @override
-  ParamType get type => this.length == 1 ? ParamType.float : ParamType.fvec;
+  ParamType get type => ParamType.fvec;
 
   @override
   List<double> _parseList(Object obj) {
@@ -377,10 +377,10 @@ class FloatVectorParamSpec extends VectorParamSpec<double> {
 }
 
 class IntVectorParamSpec extends VectorParamSpec<int> {
-  IntVectorParamSpec(String key) : super._(key);
+  IntVectorParamSpec(String key, {int length: 1}) : super._(key, length: length);
 
   @override
-  ParamType get type => this.length == 1 ? ParamType.int : ParamType.ivec;
+  get type => ParamType.ivec;
 
   @override
   List<int> _parseList(Object obj) {

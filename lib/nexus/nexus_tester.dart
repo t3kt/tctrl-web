@@ -22,6 +22,8 @@ AppSchema _buildTestAppSchema() {
     ..label = 'Sub Module 1';
   subMod1.addParam('whatever', ParamType.float)
     ..label = 'Whatever';
+  subMod1.addParam('pos', ParamType.fvec, length: 3)
+    ..label = 'Position';
   return app;
 }
 

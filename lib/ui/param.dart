@@ -31,4 +31,5 @@ final _simpleParamTypes = new Set<ParamType>.from([
   ParamType.int,
   ParamType.float,
   ParamType.string,
+  ParamType.fvec,
 ]);

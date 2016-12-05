@@ -6,7 +6,7 @@ import 'package:tctrl/schema/model.dart';
 
 @Component(
     selector: 'simple-nexus-field',
-    template: '''<canvas #nxcanvas [attr.label]="label"></canvas>''')
+    template: '''<canvas #nxcanvas></canvas>''')
 class SimpleNexusFieldComponent implements AfterViewInit {
   WidgetWrapper _widget;
 

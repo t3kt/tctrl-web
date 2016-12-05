@@ -147,9 +147,9 @@ abstract class ParamSpec extends SpecNode {
         }
         return new FloatVectorParamSpec(key, length: length);
       case ParamType.ivec:
-        return new IntVectorParamSpec(key);
+        return new IntVectorParamSpec(key, length: length);
       case ParamType.fvec:
-        return new FloatVectorParamSpec(key);
+        return new FloatVectorParamSpec(key, length: length);
       case ParamType.menu:
         return new MenuParamSpec(key);
       case ParamType.trigger:

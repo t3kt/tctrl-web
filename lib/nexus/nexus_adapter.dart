@@ -59,9 +59,8 @@ typedef NexusParam _ParamTypeNexusHandler(ParamModel param);
 
 WidgetOptions _basicWidgetOptions(ParamModel param) =>
     new WidgetOptions()
-//      ..label = param.label
-//      ..oscPath = param.path
-;
+      ..label = param.label
+      ..oscPath = param.path;
 
 _ParamTypeNexusHandler _simpleHandler(NexusType nexusType) {
   return (ParamModel param) =>
@@ -76,6 +75,12 @@ final _handlers = <ParamType, _ParamTypeNexusHandler>{
   ParamType.string: _simpleHandler(NexusType.text),
   ParamType.int: _simpleHandler(NexusType.number),
   ParamType.float: _simpleHandler(NexusType.slider),
+  ParamType.fvec: (ParamModel param) =>
+  new NexusParam._(
+      param,
+      nexusType: NexusType.multislider,
+      widgetOptions: _basicWidgetOptions(param)
+        ..sliders = (param.spec as FloatVectorParamSpec).length),
 };
 //TODO: support other types
 

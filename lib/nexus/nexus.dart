@@ -55,11 +55,16 @@ class WidgetOptions {
   external String get name;
   external void set name(String v);
 
-//  external String get label;
-//  external void set label(String v);
+  external String get label;
+  external void set label(String v);
 
-//  external String get oscPath;
-//  external void set oscPath(String v);
+  external String get oscPath;
+  external void set oscPath(String v);
+
+  external int get sliders;
+  external void set sliders(int v);
+
+  external factory WidgetOptions();
 }
 
 @JS()

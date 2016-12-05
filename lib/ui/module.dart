@@ -1,14 +1,15 @@
 import 'package:angular2/angular2.dart';
 import 'package:tctrl/schema/model.dart';
-import 'package:tctrl/ui/param_list.dart';
+import 'package:tctrl/ui/param.dart';
 
 @Component(
     selector: 'module',
     directives: const [
-      ParamListComponent,
+      ParamComponent,
       ModuleComponent,
     ],
-    templateUrl: 'module.html'
+    templateUrl: 'module.html',
+    styleUrls: const ['module.css'],
     )
 class ModuleComponent {
 
@@ -18,6 +19,8 @@ class ModuleComponent {
   String get label => module?.label ?? module?.key;
 
   List<ParamModel> get params => module?.params?.values?.toList();
+
+  bool get hasParams => params?.isNotEmpty ?? false;
 
   List<ModuleModel> get children => module?.children?.values?.toList();
 }

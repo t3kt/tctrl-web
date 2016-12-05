@@ -7,7 +7,8 @@ import 'package:tctrl/ui/module.dart';
     directives: const [
       ModuleComponent,
     ],
-    templateUrl: 'control_app.html'
+    templateUrl: 'control_app.html',
+    styleUrls: const ['control_app.css'],
     )
 class ControlAppComponent {
 

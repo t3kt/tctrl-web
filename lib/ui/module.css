@@ -1,0 +1,19 @@
+:host {
+  border: 2px solid #666;
+  padding: 1em;
+  border-radius: 1em;
+  display: block; }
+
+.param-list {
+  border: 1px dotted #999;
+  display: flex;
+  flex-direction: column; }
+
+.modules {
+  display: flex;
+  flex-direction: column; }
+
+module {
+  margin: 1em; }
+
+/*# sourceMappingURL=module.css.map */

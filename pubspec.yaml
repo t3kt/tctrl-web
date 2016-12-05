@@ -1,5 +1,5 @@
 name: tctrl
-description: A Dart app that uses Angular 2
+description: tctrl controller app
 version: 0.0.1
 environment:
   sdk: '>=1.19.0 <2.0.0'
@@ -10,7 +10,15 @@ dependencies:
 dev_dependencies:
   browser: ^0.10.0
   dart_to_js_script_rewriter: ^1.0.1
+#  scissors: ^0.6.6
 transformers:
+## Use this transformer instead to force-build all the css files upfront:
+## - scissors/eager_transformer
+#- scissors:
+#    verbose: true
+#    pruneCss: false
+#    optimizeSvg: false
+#    optimizePng: false
 - angular2:
     platform_directives:
     - 'package:angular2/common.dart#COMMON_DIRECTIVES'

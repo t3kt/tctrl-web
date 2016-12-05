@@ -1,7 +1,10 @@
 <div>[module] {{label}}</div>
-<param-list
-    [params]="params">
-</param-list>
+<div *ngIf="hasParams" class="param-list">
+  <parameter
+      *ngFor="let param of params"
+      [param]="param">
+  </parameter>
+</div>
 
 <module
     *ngFor="let mod of children"

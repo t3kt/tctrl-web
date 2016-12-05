@@ -75,7 +75,7 @@ final _handlers = <ParamType, _ParamTypeNexusHandler>{
   ParamType.bool: _simpleHandler(NexusType.toggle),
   ParamType.string: _simpleHandler(NexusType.text),
   ParamType.int: _simpleHandler(NexusType.number),
-  ParamType.float: _simpleHandler(NexusType.number),
+  ParamType.float: _simpleHandler(NexusType.slider),
 };
 //TODO: support other types
 

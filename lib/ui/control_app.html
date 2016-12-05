@@ -1,6 +1,8 @@
 <div>[app] {{label}}</div>
 
-<module
-    *ngFor="let mod of children"
-    [module]="mod">
-</module>
+<div class="modules">
+  <module
+      *ngFor="let module of children"
+      [module]="module">
+  </module>
+</div>

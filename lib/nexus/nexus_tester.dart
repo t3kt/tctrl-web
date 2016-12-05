@@ -1,7 +1,8 @@
 import 'package:angular2/angular2.dart';
-import 'package:tctrl/nexus/simple_nexus_param.dart';
+import 'package:tctrl/nexus/simple_nexus_field.dart';
 import 'package:tctrl/schema/model.dart';
 import 'package:tctrl/schema/schema.dart';
+import 'package:tctrl/ui/control_app.dart';
 
 
 AppSchema _buildTestAppSchema() {
@@ -20,7 +21,9 @@ AppSchema _buildTestAppSchema() {
 
 @Component(
     selector: 'nexus-tester',
-    directives: const [SimpleNexusParamComponent],
+    directives: const [
+      ControlAppComponent,
+    ],
     templateUrl: 'nexus_tester.html')
 class NexusTesterComponent {
 

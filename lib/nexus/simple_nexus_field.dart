@@ -5,16 +5,13 @@ import 'package:tctrl/schema/model.dart';
 
 
 @Component(
-    selector: 'simple-nexus-param',
-    template: '''<canvas #nxcanvas></canvas>''')
-class SimpleNexusParamComponent implements AfterViewInit {
-//  final ManagerWrapper _manager;
+    selector: 'simple-nexus-field',
+    template: '''<canvas #nxcanvas [attr.label]="label"></canvas>''')
+class SimpleNexusFieldComponent implements AfterViewInit {
   WidgetWrapper _widget;
 
   ParamModel _paramModel;
   NexusParam _nexusParam;
-
-//  SimpleNexusParamComponent(this._manager);
 
   @Input()
   void set param(ParamModel param) {
@@ -27,6 +24,8 @@ class SimpleNexusParamComponent implements AfterViewInit {
   String get nexusType => this.nexusParam?.nexusType?.toString()?.replaceAll('NexusType.', '');
 
   WidgetOptions get widgetOptions => this.nexusParam?.widgetOptions;
+
+  String get label => _paramModel?.label;
 
   @ViewChild('nxcanvas')
   ElementRef canvas;

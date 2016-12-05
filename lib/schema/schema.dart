@@ -21,6 +21,9 @@ ParamType parseParamType(String str) {
                                          orElse: () => null);
 }
 
+String paramTypeName(ParamType type) =>
+    type?.toString()?.replaceFirst('ParamType.', '');
+
 Exception _parseError(dynamic message) {
   return new Exception(message);
 }

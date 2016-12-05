@@ -1,7 +1,7 @@
 import 'package:angular2/angular2.dart';
+import 'package:tctrl/nexus/simple_nexus_field.dart';
 import 'package:tctrl/schema/model.dart';
 import 'package:tctrl/schema/schema.dart';
-import 'package:tctrl/ui/single_number_field.dart';
 
 @Component(
     selector: 'parameter',
@@ -9,17 +9,26 @@ import 'package:tctrl/ui/single_number_field.dart';
       NgSwitch,
       NgSwitchWhen,
       NgSwitchDefault,
-      SingleNumberFieldComponent,
+      SimpleNexusFieldComponent,
     ],
-    templateUrl: 'single_number_field.html')
+    templateUrl: 'param.html')
 class ParamComponent {
-
-  dynamic get PTypes => ParamType;
 
   @Input()
   ParamModel param;
 
-  String get label => param?.label ?? param?.key ?? '';
+  String get label => param?.label ?? param?.key;
 
   ParamType get type => param?.type ?? ParamType.other;
+
+  String get typeName => paramTypeName(type);
+
+  bool get isSimple => _simpleParamTypes.contains(type);
 }
+
+final _simpleParamTypes = new Set<ParamType>.from([
+  ParamType.bool,
+  ParamType.int,
+  ParamType.float,
+  ParamType.string,
+]);

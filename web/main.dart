@@ -13,8 +13,8 @@ main() {
     nexus.bindings,
   ]);
 
-  var nx = globalInstance;
-  print('OMG NX! $nx');
-  nx.addWidget('dial');
-  nx.addWidget('colors');
+//  var nx = globalInstance;
+//  print('OMG NX! $nx');
+//  nx.addWidget('dial');
+//  nx.addWidget('colors');
 }

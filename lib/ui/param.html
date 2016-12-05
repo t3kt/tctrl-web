@@ -1,15 +1,12 @@
 <span class="label">{{label}}</span>
-<span
-    class="field"
-    [ngSwitch]="type">
+<span class="field">
 
-  <single-number-field
-      *ngSwitchWhen="PTypes.int"
+  <simple-nexus-field
+      *ngIf="isSimple"
       [param]="param">
-  </single-number-field>
+  </simple-nexus-field>
 
-  <single-number-field
-      *ngSwitchWhen="PTypes.float"
-      [param]="param">
-  </single-number-field>
+  <div *ngIf="!isSimple">
+    unsupported type: {{typeName}}
+  </div>
 </span>

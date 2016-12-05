@@ -59,8 +59,9 @@ typedef NexusParam _ParamTypeNexusHandler(ParamModel param);
 
 WidgetOptions _basicWidgetOptions(ParamModel param) =>
     new WidgetOptions()
-      ..label = param.label
-      ..oscPath = param.path;
+//      ..label = param.label
+//      ..oscPath = param.path
+;
 
 _ParamTypeNexusHandler _simpleHandler(NexusType nexusType) {
   return (ParamModel param) =>

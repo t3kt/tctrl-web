@@ -66,7 +66,7 @@ class ModuleModel extends _ContainerNode {
       this._params = new Map<String, ParamModel>();
     } else {
       this._params =
-      new Map<String, ParamModel>.fromIterable(spec.params.map((p) => new ParamModel(p, this)), key: (p) => key);
+      new Map<String, ParamModel>.fromIterable(spec.params.map((p) => new ParamModel(p, this)), key: (p) => p.key);
     }
     _setChildren(spec.children?.map((m) => new ModuleModel(m, this.app, this)));
   }

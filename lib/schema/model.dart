@@ -33,25 +33,45 @@ class ParamModel extends ModelNode {
   String toString() => 'Param{$label ($key): $value}';
 }
 
-class ModuleModel extends ModelNode {
+abstract class _ContainerNode extends ModelNode {
+
+  Map<String, ModuleModel> _children;
+
+  _ContainerNode(String key, String path)
+      : super(key, path);
+
+  void _setChildren(Iterable<ModuleModel> children) {
+    if (children == null) {
+      this._children = new Map<String, ModuleModel>();
+    } else {
+      this._children = new Map<String, ModuleModel>.fromIterable(children, key: (m) => m.key);
+    }
+  }
+
+  Map<String, ModuleModel> get children => _children;
+}
+
+class ModuleModel extends _ContainerNode {
   final ModuleSpec spec;
   final ModuleModel parent;
   final AppModel app;
-  List<ParamModel> _params;
-  List<ModuleModel> _children;
+  Map<String, ParamModel> _params;
 
   ModuleModel(ModuleSpec spec, AppModel app, [ModuleModel parent])
       : spec = spec,
         app = app,
         parent = parent,
         super(spec.key, '${parent?.path ?? app.path}/${spec.key}') {
-    this._params = spec.params?.map((p) => new ParamModel(p, this))?.toList() ?? new List<ParamModel>(0);
-    this._children = spec.children?.map((m) => new ModuleModel(m, this.app, this))?.toList() ?? new List<ModuleModel>(0);
+    if (spec.params == null) {
+      this._params = new Map<String, ParamModel>();
+    } else {
+      this._params =
+      new Map<String, ParamModel>.fromIterable(spec.params.map((p) => new ParamModel(p, this)), key: (p) => key);
+    }
+    _setChildren(spec.children?.map((m) => new ModuleModel(m, this.app, this)));
   }
 
-  List<ParamModel> get params => _params;
-
-  List<ModuleModel> get children => _children;
+  Map<String, ParamModel> get params => _params;
 
   @override
   String get label => spec.label;
@@ -60,18 +80,14 @@ class ModuleModel extends ModelNode {
   String toString() => 'Module{$label ($key)}';
 }
 
-class AppModel extends ModelNode {
+class AppModel extends _ContainerNode {
   final AppSchema schema;
-
-  List<ModuleModel> _children;
 
   AppModel(AppSchema schema)
       : schema = schema,
         super(schema.key, '/${schema.key}') {
-    this._children = schema.children?.map((m) => new ModuleModel(m, this))?.toList() ?? new List<ModuleModel>(0);
+    _setChildren(schema.children?.map((m) => new ModuleModel(m, this)));
   }
-
-  List<ModuleModel> get children => _children;
 
   @override
   String get label => schema.label;

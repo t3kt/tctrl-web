@@ -441,6 +441,24 @@ class ModuleSpec extends SpecNode {
     return module;
   }
 
+  ParamSpec addParam(String key, ParamType type, {int length}) {
+    ParamSpec param = new ParamSpec.withType(key, type, length: length);
+    if (this.params == null) {
+      this.params = [];
+    }
+    this.params.add(param);
+    return param;
+  }
+
+  ModuleSpec addModule(String key) {
+    ModuleSpec module = new ModuleSpec(key);
+    if (this.children == null) {
+      this.children = [];
+    }
+    this.children.add(module);
+    return module;
+  }
+
   @override
   Map<String, Object> get jsonDict =>
       _merge(super.jsonDict, second: {
@@ -461,7 +479,7 @@ class ModuleSpec extends SpecNode {
 
 class AppSchema extends SpecNode {
   String description;
-  List<ModuleSpec> children;
+  List<ModuleSpec> children = [];
 
   AppSchema(String key) : super(key);
 
@@ -473,6 +491,15 @@ class AppSchema extends SpecNode {
       app.children = childrenObjs.map((m) => new ModuleSpec.fromObj(m)).toList(growable: false);
     }
     return app;
+  }
+
+  ModuleSpec addModule(String key) {
+    ModuleSpec module = new ModuleSpec(key);
+    if (this.children == null) {
+      this.children = [];
+    }
+    this.children.add(module);
+    return module;
   }
 
   @override

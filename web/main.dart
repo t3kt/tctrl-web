@@ -6,9 +6,12 @@ import 'package:angular2/platform/browser.dart';
 import 'package:tctrl/app_component.dart';
 
 import 'package:tctrl/nexus/nexus.dart';
+import 'package:tctrl/nexus/nexus_adapter.dart' as nexus;
 
 main() {
-  bootstrap(AppComponent);
+  bootstrap(AppComponent, [
+    nexus.bindings,
+  ]);
 
   var nx = globalInstance;
   print('OMG NX! $nx');

@@ -57,6 +57,9 @@ class WidgetOptions {
 
   external String get label;
   external void set label(String v);
+
+  external String get oscPath;
+  external void set oscPath(String v);
 }
 
 @JS()

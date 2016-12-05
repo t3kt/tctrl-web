@@ -64,7 +64,29 @@ class WidgetOptions {
   external int get sliders;
   external void set sliders(int v);
 
+  external bool get hslider;
+  external void set hslider(bool v);
+
+  external WidgetSize get defaultSize;
+  external void set defaultSize(WidgetSize v);
+
   external factory WidgetOptions();
+}
+
+@JS()
+@anonymous
+class WidgetSize {
+  external int get width;
+  external void set width(int v);
+  external int get height;
+  external void set height(int v);
+
+  external factory WidgetSize();
+
+  factory WidgetSize.simple({int width, int height}) =>
+      new WidgetSize()
+        ..width = width
+        ..height = height;
 }
 
 @JS()

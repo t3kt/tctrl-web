@@ -74,7 +74,13 @@ final _handlers = <ParamType, _ParamTypeNexusHandler>{
   ParamType.bool: _simpleHandler(NexusType.toggle),
   ParamType.string: _simpleHandler(NexusType.text),
   ParamType.int: _simpleHandler(NexusType.number),
-  ParamType.float: _simpleHandler(NexusType.slider),
+  ParamType.float: (ParamModel param) =>
+  new NexusParam._(
+      param,
+      nexusType: NexusType.slider,
+      widgetOptions: _basicWidgetOptions(param)
+        ..defaultSize = new WidgetSize.simple(width: 100, height: 20)
+        ..hslider = true),
   ParamType.fvec: (ParamModel param) =>
   new NexusParam._(
       param,
